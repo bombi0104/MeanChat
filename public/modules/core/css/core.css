@@ -53,4 +53,10 @@
 .contact-group {
 	height: 50px;
 	background-color: YellowGreen;
+	border-bottom: 1px solid grey;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
 }
