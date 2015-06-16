@@ -13,3 +13,44 @@
 .ng-valid.ng-dirty {
 	border-color: #78FA89;
 }
+
+.no-margin {
+	margin: 0px;
+}
+
+.no-pading {
+	padding: 0px;
+}
+
+.left-panel {
+	height: 100vh;
+	background-color: Gainsboro;
+	padding: 50px 0px 0px 0px;
+}
+
+.right-panel {
+	height: 100vh;
+	background-color: gray;
+	padding: 50px 0px 0px 0px;
+}
+
+.msg-header {
+	background-color: DarkGreen;
+	height: 40px;
+}
+
+.msg-log {
+	background-color: white;
+	height: calc(100vh - 50px - 40px - 120px);
+
+}
+
+.msg-input {
+	background-color: YellowGreen ;
+	height: 120px;
+}
+
+.contact-group {
+	height: 50px;
+	background-color: YellowGreen;
+}
