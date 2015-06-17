@@ -60,3 +60,14 @@
     display: flex;
     align-items: center;
 }
+
+.chat-area {
+	height: 98%;
+	width: 100%;
+	border: none;
+    overflow: auto;
+    outline: none;
+    resize: none;
+    padding: 10px 10px 2px 10px;
+    background-color: grey;
+}
