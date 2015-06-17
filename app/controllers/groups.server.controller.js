@@ -4,9 +4,11 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
+	ObjectId = mongoose.Types.ObjectId,
 	errorHandler = require('./errors.server.controller'),
 	Group = mongoose.model('Group'),
 	Message = mongoose.model('Message'),
+
 	_ = require('lodash');
 
 /**
@@ -43,6 +45,53 @@ exports.update = function(req, res) {
 	group = _.extend(group , req.body);
 
 	group.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(group);
+		}
+	});
+};
+
+/**
+ * Add users to Group
+ */
+exports.addUsers = function(req, res) {
+	var group = req.group ;
+
+	req.body.users.forEach(function(userid){
+    	group.users.push(ObjectId(userid));
+    });
+
+	group.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(group);
+		}
+	});
+};
+
+/**
+ * Remove users from group
+ **/
+exports.removeUsers = function(req, res){
+	var group = req.group ;
+
+    req.body.users.forEach(function(userid){
+    	for (var i = 0; i < group.users.length; i++) {
+        	if (group.users[i] == userid){
+          		group.users.splice(i, 1);
+          		i--;
+        	}
+      	};
+    });
+
+    group.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

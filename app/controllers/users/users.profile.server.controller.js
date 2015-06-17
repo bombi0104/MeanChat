@@ -7,7 +7,8 @@ var _ = require('lodash'),
 	errorHandler = require('../errors.server.controller.js'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
-	User = mongoose.model('User');
+	User = mongoose.model('User'),
+	Group = mongoose.model('Group');
 
 /**
  * Update user details
@@ -46,6 +47,24 @@ exports.update = function(req, res) {
 			message: 'User is not signed in'
 		});
 	}
+};
+
+/**
+ * Send User
+ */
+exports.groups = function(req, res) {
+	Group.find({users: req.user._id})
+	.sort('-created')
+	.populate('user', 'displayName')
+	.exec(function(err, groups) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(groups);
+		}
+	});
 };
 
 /**
