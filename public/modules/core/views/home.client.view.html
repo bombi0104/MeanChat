@@ -12,11 +12,17 @@
   		</div>
   		<div class="col-sm-10 right-panel">
   			<div class="msg-header">{{group.name}}</div>
-  			<div class="msg-log">
-          <div ng-repeat="msg in group.messages">
-            {{msg.message}}
-          </div>   
-        </div>
+  			<div class="msg-log" scroll-glue>
+  				<ul class="list-group">
+				<!-- <li><button type="button" class="btn btn-info btn-sm" ng-click="loadMore();"><span class="glyphicon glyphicon-cloud-download"></span>Load more...</button></ -->
+	            	<li class="list-group-item" ng-repeat="msg in group.messages" ng-click="onMessageClick($index);">
+		              	<div class='pull-left nickname'>{{msg.user.displayName}}</div>
+		              	<div class='pull-right msg-date small'>{{formatDate(msg.updated)}}</div>
+		              	<br />
+	                    <pre>{{msg.message}}</pre>
+	            	</li>
+          		</ul>
+        	</div>
   			<div class="msg-input">
           <textarea class="chat-area" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here...(Shift-Enter for send)"></textarea>
         </div>
