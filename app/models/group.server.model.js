@@ -25,7 +25,8 @@ var GroupSchema = new Schema({
 		ref: 'User'
 	}],
 	updated: {
-		type: Date
+		type: Date,
+		default: Date.now
 	},
 	created: {
 		type: Date,

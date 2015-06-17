@@ -13,6 +13,8 @@ module.exports = function(app) {
 		.get(groups.read)
 		.put(users.requiresLogin, groups.hasAuthorization, groups.update)
 		.delete(users.requiresLogin, groups.hasAuthorization, groups.delete);
+	app.route('/groups/:groupId/messages')
+		.get(users.requiresLogin, groups.hasAuthorization, groups.listMessage);
 
 	// Finish by binding the Group middleware
 	app.param('groupId', groups.groupByID);
