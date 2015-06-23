@@ -52,3 +52,20 @@ exports.hasAuthorization = function(roles) {
 		});
 	};
 };
+
+/**
+ * User authorizations routing middleware
+ */
+exports.list = function(req, res) {
+	User.find()
+		.sort('-created')
+		.exec(function(err, users) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(users);
+		}
+	});
+};

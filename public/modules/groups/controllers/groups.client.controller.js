@@ -1,8 +1,8 @@
 'use strict';
 
 // Groups controller
-angular.module('groups').controller('GroupsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Groups',
-	function($scope, $stateParams, $location, Authentication, Groups) {
+angular.module('groups').controller('GroupsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Groups', 'Users', '$http',
+	function($scope, $stateParams, $location, Authentication, Groups, Users, $http) {
 		$scope.authentication = Authentication;
 
 		// Create new Group
@@ -62,5 +62,29 @@ angular.module('groups').controller('GroupsController', ['$scope', '$stateParams
 				groupId: $stateParams.groupId
 			});
 		};
+
+		$scope.updateGroupUser = function(user, addFlag) {
+			var group = $scope.group;
+			console.log(user, addFlag);
+			if (addFlag === true){
+				$scope.success = $scope.error = null;
+				var jsonData = {
+					users : [ user._id ]
+				}
+
+				$http.put('/groups/' + group._id + '/addUsers', jsonData)
+				.success(function(response){
+					$scope.success = true;
+					//group.messages = response;
+				}).error(function(response){
+					$scope.error = response.message;
+				});
+			}
+			
+		}
+
+		$scope.users = Users.query();
+
+		console.log($scope.group);
 	}
 ]);

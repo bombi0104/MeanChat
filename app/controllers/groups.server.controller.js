@@ -59,7 +59,9 @@ exports.update = function(req, res) {
  * Add users to Group
  */
 exports.addUsers = function(req, res) {
-	var group = req.group ;
+	var group = req.group;
+
+	console.log("addUsers Body", req.body);
 
 	req.body.users.forEach(function(userid){
     	group.users.push(ObjectId(userid));
@@ -138,10 +140,15 @@ exports.list = function(req, res) {
  * Group middleware
  */
 exports.groupByID = function(req, res, next, id) { 
-	Group.findById(id).populate('user', 'displayName').exec(function(err, group) {
+	Group
+	.findById(id)
+	.populate('user', 'displayName')
+	.populate('users', 'displayName')
+	.exec(function(err, group) {
 		if (err) return next(err);
 		if (! group) return next(new Error('Failed to load Group ' + id));
 		req.group = group ;
+		console.log("Group : ", group);
 		next();
 	});
 };
@@ -151,6 +158,7 @@ exports.groupByID = function(req, res, next, id) {
  */
 exports.hasAuthorization = function(req, res, next) {
 	if (req.group.user.id !== req.user.id) {
+		console.log(req.group.user.id, req.user.id);
 		return res.status(403).send('User is not authorized');
 	}
 	next();
@@ -173,4 +181,21 @@ exports.listMessage = function(req, res, next) {
 			}
 	});
 	
+};
+
+/**
+ * List of User in group
+ */
+exports.listUsers = function(req, res, next) { 
+	Group.findOne({_id:req.body.group})
+	.exec(function(err, group) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			req.groupUsers = group.users;
+		}
+		next();
+	});
 };

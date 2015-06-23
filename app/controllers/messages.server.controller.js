@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
+	coreCtrl = require('./core.server.controller'),
 	Message = mongoose.model('Message'),
 	_ = require('lodash');
 
@@ -22,6 +23,7 @@ exports.create = function(req, res) {
 			});
 		} else {
 			res.jsonp(message);
+			coreCtrl.sse_sendMsg(message.message, req.groupUsers);
 		}
 	});
 };

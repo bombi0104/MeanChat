@@ -2,12 +2,13 @@
 
 module.exports = function(app) {
 	var users = require('../../app/controllers/users.server.controller');
+	var groups = require('../../app/controllers/groups.server.controller');
 	var messages = require('../../app/controllers/messages.server.controller');
 
 	// Messages Routes
 	app.route('/messages')
 		.get(messages.list)
-		.post(users.requiresLogin, messages.create);
+		.post(users.requiresLogin, groups.listUsers, messages.create);
 
 	app.route('/messages/:messageId')
 		.get(messages.read)

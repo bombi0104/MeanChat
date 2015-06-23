@@ -18,4 +18,17 @@
 			<span data-ng-bind="group.user.displayName"></span>
 		</em>
 	</small>
+
+	<p>Users in group : </p>>
+	<div ng-repeat="user in group.users">
+		<div>{{user.displayName}}</div>
+	</div>
+
+	<div>
+		<p>Add user to group</p>
+		<ul class="list-group">
+  			<li class="list-group-item" ng-repeat="user in users"> <label class="checkbox-inline"><input type="checkbox" ng-model="addFlag" ng-click="updateGroupUser(user, addFlag);">{{user.displayName}}</label></li>
+		</ul>	
+	</div>
+
 </section>
